@@ -25,8 +25,13 @@ class Merchant
   end
 
   def items
-    engine = merchant_repo.sales_engine
-    engine.items.find_all_by_merchant_id(id)
+    merchant_repo.get_items(id)
+    # sales_engine
+    # engine.items.find_all_by_merchant_id(id)
+  end
+
+  def invoices
+    merchant_repo.get_invoices(id)
   end
 
 end

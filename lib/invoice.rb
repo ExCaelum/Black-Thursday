@@ -24,10 +24,22 @@ class Invoice
   end
 
   def created_at
-    invoice_data[:created_at]
+    if invoice_data[:created_at].class == String
+      Time.parse(invoice_data[:created_at])
+    elsif invoice_data[:created_at].class == Time
+      invoice_data[:created_at]
+    end
   end
 
   def updated_at
-    invoice_data[:updated_at]
+    if invoice_data[:updated_at].class == String
+      Time.parse(invoice_data[:updated_at])
+    elsif invoice_data[:updated_at].class == Time
+      invoice_data[:updated_at]
+    end
+  end
+
+  def merchant
+    invoice_repo.get_merchant(merchant_id)
   end
 end

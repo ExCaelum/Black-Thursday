@@ -44,8 +44,7 @@ class Item
   end
 
   def merchant
-    engine = item_repo.sales_engine
-    engine.merchants.find_by_id(merchant_id)
+    item_repo.get_merchant(merchant_id)
   end
 
 end

@@ -34,6 +34,14 @@ class MerchantRepository
     names
   end
 
+  def get_items(id)
+    sales_engine.items.find_all_by_merchant_id(id)
+  end
+
+  def get_invoices(id)
+    sales_engine.invoices.find_all_by_merchant_id(id)
+  end
+
   def inspect
     "#<#{self.class} #{@merchants.size} rows>"
   end
