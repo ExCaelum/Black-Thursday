@@ -1,32 +1,46 @@
 require 'csv'
 require_relative 'merchant_repository'
 require_relative 'item_repository'
+require_relative 'invoice_repository'
 
 class SalesEngine
-  attr_reader :merchants, :items
+  attr_reader :merchants, :items, :invoices
 
-  def initialize(merchants_data, items_data)
+  def initialize(merchants_data, items_data, invoice_data)
     @merchants = MerchantRepository.new(merchants_data, self)
     @items = ItemRepository.new(items_data, self)
+    @invoices = InvoiceRepository.new(invoice_data, self)
   end
 
   def self.from_csv(path)
     merchants_data = load_data(path[:merchants])
     items_data = load_data(path[:items])
+    invoice_data = load_data(path[:invoices])
 
-    SalesEngine.new(merchants_data, items_data)
+    SalesEngine.new(merchants_data, items_data, invoice_data)
   end
 
   def self.load_data(path)
     contents = CSV.open(path, headers: true, header_converters: :symbol)
-    if path == './data/small_merchants.csv' || path == './data/merchants.csv'
+    if path.include? "merchants"
       load_merchants(contents)
-    elsif path == './data/small_items.csv' || path == './data/items.csv'
+    elsif path.include? "items"
       load_items(contents)
-    elsif path == './data/small_invoices.csv' || path == './data/invoices.csv'
+    elsif path.include? "invoices"
       load_invoices(contents)
     end
   end
+
+  # def self.load_data(path)
+  #   contents = CSV.open(path, headers: true, header_converters: :symbol)
+  #   if path == './data/small_merchants.csv' || path == './data/merchants.csv'
+  #     load_merchants(contents)
+  #   elsif path == './data/small_items.csv' || path == './data/items.csv'
+  #     load_items(contents)
+  #   elsif path == './data/small_invoices.csv' || path == './data/invoices.csv'
+  #     load_invoices(contents)
+  #   end
+  # end
 
   def self.load_merchants(contents)
     all_merchants = contents.map do |row|
@@ -56,7 +70,7 @@ class SalesEngine
     all_items
   end
 
-  def self.load_invoice(contents)
+  def self.load_invoices(contents)
 
     all_invoices = contents.map do |row|
       data_hash = {}
