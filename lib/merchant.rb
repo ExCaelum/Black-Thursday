@@ -10,19 +10,19 @@ class Merchant
   end
 
   def id
-    merchant_data[0].to_i
+    merchant_data[:id].to_i
   end
 
   def name
-    merchant_data[1]
+    merchant_data[:name]
   end
 
   def created_at
-    merchant_data[2]
+    merchant_data[:created_at]
   end
 
   def updated_at
-    merchant_data[3]
+    merchant_data[:updated_at]
   end
 
   def items

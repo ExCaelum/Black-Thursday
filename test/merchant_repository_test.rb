@@ -4,8 +4,8 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_all_merchants_are_present
     assert_equal 5, @engine.merchants.all.count
-    assert_equal "Shopin1901", @engine.merchants.all.first.merchant_data['name']
-    assert_equal "GoldenRayPress", @engine.merchants.all.last.merchant_data['name']
+    assert_equal "Shopin1901", @engine.merchants.all.first.name
+    assert_equal "GoldenRayPress", @engine.merchants.all.last.name
   end
 
   def test_find_by_id
