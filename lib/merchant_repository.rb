@@ -1,4 +1,3 @@
-require 'csv'
 require_relative 'merchant'
 
 class MerchantRepository
@@ -33,6 +32,14 @@ class MerchantRepository
       merchant.name.downcase.include?(name.downcase)
     end
     names
+  end
+
+  def get_items(id)
+    sales_engine.items.find_all_by_merchant_id(id)
+  end
+
+  def get_invoices(id)
+    sales_engine.invoices.find_all_by_merchant_id(id)
   end
 
   def inspect

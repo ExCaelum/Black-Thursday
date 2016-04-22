@@ -13,6 +13,7 @@ class Minitest::Test
     @engine = SalesEngine.from_csv({
               :items     => "./data/small_items.csv",
               :merchants => "./data/small_merchants.csv",
+              :invoices => "./data/small_invoices.csv"
                })
     @analyst = SalesAnalyst.new(@engine)
   end

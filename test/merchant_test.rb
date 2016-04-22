@@ -1,4 +1,5 @@
-require './test/test_helper'
+require_relative 'test_helper'
+require './lib/merchant'
 
 class MerchantTest < Minitest::Test
 
@@ -25,9 +26,17 @@ class MerchantTest < Minitest::Test
   def test_it_can_list_items_for_the_merchant
     merchant = @engine.merchants.all.first
     assert_equal "Shopin1901", merchant.name
-    items = merchant.items
-    items = items.map {|item| item.id}
+    item_array = merchant.items
+    items = item_array.map {|item| item.id}
     assert_equal [263396209, 263500440, 263501394], items
+  end
+
+  def test_it_can_list_the_merchants_invoices
+    merchant = @engine.merchants.all.last
+    assert_equal 'GoldenRayPress', merchant.name
+    invoice_array = merchant.invoices
+    invoices = invoice_array.map {|invoice| invoice.id}
+    assert_equal [1514,1691], invoices
   end
 
 end

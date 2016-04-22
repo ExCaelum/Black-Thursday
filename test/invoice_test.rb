@@ -1,4 +1,4 @@
-require './test/test_helper'
+require_relative 'test_helper'
 require './lib/invoice'
 
 class InvoiceTest < Minitest::Test
@@ -10,7 +10,7 @@ class InvoiceTest < Minitest::Test
       :status      => "pending",
       :created_at  => Time.now,
       :updated_at  => Time.now,
-      })
+      }, nil)
   end
 
   def test_it_has_an_id
@@ -30,10 +30,10 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_it_has_a_created_at
-    assert @invoice.created_at
+    assert_equal Time, @invoice.created_at.class
   end
 
   def test_it_has_a_updated_at
-    assert @invoice.updated_at
+    assert_equal Time, @invoice.updated_at.class
   end
 end
