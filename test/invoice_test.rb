@@ -1,4 +1,4 @@
-require './test/test_helper'
+require_relative 'test_helper'
 require './lib/invoice'
 
 class InvoiceTest < Minitest::Test
@@ -10,7 +10,7 @@ class InvoiceTest < Minitest::Test
       :status      => "pending",
       :created_at  => Time.now,
       :updated_at  => Time.now,
-      })
+      }, nil)
   end
 
   def test_it_has_an_id

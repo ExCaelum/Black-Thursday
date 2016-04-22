@@ -1,4 +1,3 @@
-require 'csv'
 require 'bigdecimal'
 require 'time'
 require 'date'

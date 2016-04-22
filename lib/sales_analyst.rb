@@ -1,4 +1,3 @@
-require 'csv'
 require 'bigdecimal/util'
 require_relative 'sales_engine'
 
