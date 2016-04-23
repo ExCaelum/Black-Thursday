@@ -49,4 +49,22 @@ class SalesAnalystTest < Minitest::Test
     assert_equal ['Custom Hand Made Miniature Bicycle'], golden_array
   end
 
+  def test_it_can_calculate_the_percentage_of_invoices_shipped
+    result = @analyst.invoice_status(:shipped)
+
+    assert_equal 50.0, result
+  end
+
+  def test_it_can_calculate_the_percentage_of_invoices_pending
+    result = @analyst.invoice_status(:pending)
+
+    assert_equal 10.0, result
+  end
+
+  def test_it_can_calculate_the_percentage_of_invoices_returned
+    result = @analyst.invoice_status(:returned)
+
+    assert_equal 40.0, result
+  end
+
 end
