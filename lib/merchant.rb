@@ -26,8 +26,6 @@ class Merchant
 
   def items
     merchant_repo.get_items(id)
-    # sales_engine
-    # engine.items.find_all_by_merchant_id(id)
   end
 
   def invoices
