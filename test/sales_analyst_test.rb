@@ -72,4 +72,16 @@ class SalesAnalystTest < Minitest::Test
 
     assert_equal ["Monday"], result
   end
+
+  def test_it_can_calculate_average_invoices_per_merchant
+    result = @analyst.average_invoices_per_merchant
+
+    assert_equal 2, result
+  end
+
+  def test_it_can_calculate_invoices_per_merchant_standard_deviation
+    result = @analyst.average_invoices_per_merchant_standard_deviation
+
+    assert_equal 0, result
+  end
 end

@@ -94,6 +94,16 @@ class SalesAnalyst
     result
   end
 
+  def average_invoices_per_merchant
+    merchant_totals = merchants.map { |merchant| merchant.invoices.count }
+    merchant_totals.reduce(:+)/merchant_totals.length
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    merchant_totals = merchants.map { |merchant| merchant.invoices.count }
+    standard_deviation(merchant_totals)
+  end
+
   private
 
   def item_repo
