@@ -3,12 +3,15 @@ require_relative 'invoice'
 class InvoiceRepository
   attr_accessor :invoices
   attr_reader   :sales_engine
+  include Loader
 
-  def initialize(invoice_data, sales_engine)
-    @invoices = invoice_data.map do |invoice|
-      Invoice.new(invoice, self)
-    end
+  def initialize(invoice_data = [], sales_engine = nil)
+    @invoices = create_invoices(invoice_data)
     @sales_engine = sales_engine
+  end
+
+  def from_csv(path)
+    invoices = create_invoices(Loader.load_merchants(path))
   end
 
   def all
@@ -47,4 +50,11 @@ class InvoiceRepository
     "#<#{self.class} #{@invoices.size} rows>"
   end
 
+  private
+
+  def create_invoices(invoice_data)
+    invoice_data.map do |invoice|
+      Invoice.new(invoice, self)
+    end
+  end
 end

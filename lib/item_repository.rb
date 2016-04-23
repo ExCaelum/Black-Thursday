@@ -3,12 +3,15 @@ require_relative 'item'
 class ItemRepository
   attr_accessor :items
   attr_reader   :sales_engine
+  include Loader
 
-  def initialize(items_data, sales_engine)
-    @items = items_data.map do |item_data|
-      Item.new(item_data, self)
-    end
+  def initialize(items_data = [], sales_engine = nil)
+    @items = create_items(items_data)
     @sales_engine = sales_engine
+  end
+
+  def from_csv(path)
+    items = create_items(Loader.load_items(path))
   end
 
   def all
@@ -61,5 +64,13 @@ class ItemRepository
 
   def inspect
     "#<#{self.class} #{@items.size} rows>"
+  end
+
+  private
+
+  def create_items(items_data)
+    items_data.map do |item_data|
+      Item.new(item_data, self)
+    end
   end
 end
