@@ -60,4 +60,18 @@ module Loader
     all_invoice_items
   end
 
+  def self.load_transactions(path)
+    all_transactions = contents(path).map do |row|
+      data_hash = {}
+      data_hash[:id] = row[:id]
+      data_hash[:invoice_id] = row[:invoice_id]
+      data_hash[:credit_card_number] = row[:credit_card_number]
+      data_hash[:expiration_date] = row[:expiration_date]
+      data_hash[:result] = row[:result]
+      data_hash[:created_at] = row[:created_at]
+      data_hash[:updated_at] = row[:updated_at]
+      data_hash
+    end
+    all_transactions
+  end
 end

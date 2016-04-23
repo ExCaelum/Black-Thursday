@@ -6,7 +6,7 @@ class Item
   attr_accessor :item_data
   attr_reader   :item_repo
 
-  def initialize(item_data, item_repo)
+  def initialize(item_data, item_repo = nil)
     @item_data = item_data
     @item_repo = item_repo
   end
