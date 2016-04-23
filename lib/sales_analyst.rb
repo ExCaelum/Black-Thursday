@@ -83,13 +83,13 @@ class SalesAnalyst
                   standard_deviation(invoice_totals_by_day)
 
     result = []
-    result << "Sunday" if totals[0] > threshold
-    result << "Monday" if totals[1] > threshold
-    result << "Tuesday" if totals[2] > threshold
-    result << "Wednesday" if totals[3] > threshold
-    result << "Thursday" if totals[4] > threshold
-    result << "Friday" if totals[5] > threshold
-    result << "Saturday" if totals[6] > threshold
+    result << "Sunday" if invoice_totals_by_day[0] > threshold
+    result << "Monday" if invoice_totals_by_day[1] > threshold
+    result << "Tuesday" if invoice_totals_by_day[2] > threshold
+    result << "Wednesday" if invoice_totals_by_day[3] > threshold
+    result << "Thursday" if invoice_totals_by_day[4] > threshold
+    result << "Friday" if invoice_totals_by_day[5] > threshold
+    result << "Saturday" if invoice_totals_by_day[6] > threshold
 
     result
   end
