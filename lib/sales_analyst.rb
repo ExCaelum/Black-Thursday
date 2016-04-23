@@ -70,14 +70,17 @@ class SalesAnalyst
     (requested_type_count / total_invoices) * 100
   end
 
-  def top_days_by_invoice_count
+  def invoice_totals_by_day
     totals = [0,0,0,0,0,0,0]
     invoices.each do |invoice|
       totals[invoice.created_at.wday] += 1
     end
+    totals
+  end
 
-    threshold = (totals.reduce(:+)/totals.length) +
-                standard_deviation(totals)
+  def top_days_by_invoice_count
+    threshold = (invoice_totals_by_day.reduce(:+)/invoice_totals_by_day.length) +
+                  standard_deviation(invoice_totals_by_day)
 
     result = []
     result << "Sunday" if totals[0] > threshold
