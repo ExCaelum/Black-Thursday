@@ -25,7 +25,26 @@ class TransactionRepository
   end
 
   def find_all_by_invoice_id(id)
-    
+    transactions.find_all do |transaction|
+      transaction.invoice_id == id.to_i
+    end
+  end
+
+  def find_all_by_credit_card_number(ccn)
+    transactions.find_all do |transaction|
+      transaction.credit_card_number == ccn.to_i
+    end
+  end
+
+  def find_all_by_result(result)
+    transactions.find_all do |transaction|
+      transaction.result.downcase == result.downcase
+    end
+  end
+
+  def inspect
+    "#<#{self.class} #{@transactions.size} rows>"
+  end
 
   private
 
