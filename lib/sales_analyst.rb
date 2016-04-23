@@ -104,6 +104,12 @@ class SalesAnalyst
     standard_deviation(merchant_totals)
   end
 
+  def top_merchants_by_invoice_count
+    threshold = average_invoices_per_merchant +
+                  (average_invoices_per_merchant_standard_deviation*2)
+    merchants.find_all { |merchant| merchant.invoices.count > threshold}
+  end
+
   private
 
   def item_repo
