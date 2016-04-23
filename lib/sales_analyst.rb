@@ -70,6 +70,30 @@ class SalesAnalyst
     (requested_type_count / total_invoices) * 100
   end
 
+  def invoice_totals_by_day
+    totals = [0,0,0,0,0,0,0]
+    invoices.each do |invoice|
+      totals[invoice.created_at.wday] += 1
+    end
+    totals
+  end
+
+  def top_days_by_invoice_count
+    threshold = (invoice_totals_by_day.reduce(:+)/invoice_totals_by_day.length) +
+                  standard_deviation(invoice_totals_by_day)
+
+    result = []
+    result << "Sunday" if invoice_totals_by_day[0] > threshold
+    result << "Monday" if invoice_totals_by_day[1] > threshold
+    result << "Tuesday" if invoice_totals_by_day[2] > threshold
+    result << "Wednesday" if invoice_totals_by_day[3] > threshold
+    result << "Thursday" if invoice_totals_by_day[4] > threshold
+    result << "Friday" if invoice_totals_by_day[5] > threshold
+    result << "Saturday" if invoice_totals_by_day[6] > threshold
+
+    result
+  end
+
   private
 
   def item_repo
