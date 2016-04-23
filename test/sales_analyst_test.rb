@@ -84,4 +84,10 @@ class SalesAnalystTest < Minitest::Test
 
     assert_equal 0, result
   end
+
+  def test_it_can_calculate_which_merchants_are_more_more_than_two_sd_from_mean
+    result = @analyst.top_merchants_by_invoice_count
+
+    assert_equal [], result
+  end
 end
