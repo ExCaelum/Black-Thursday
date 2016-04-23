@@ -19,6 +19,11 @@ class SalesAnalyst
     average_price.round(2)
   end
 
+  def average_invoices_per_merchant
+    merchant_totals = merchants.map { |merchant| merchant.invoices.count.to_f }
+    (merchant_totals.reduce(:+)/merchant_totals.length.to_f).round(2)
+  end
+
   def average_items_per_merchant_standard_deviation
     merchant_items = find_merchant_ids.map do |id|
       items_by_merchant_id(id).size.to_f
@@ -66,8 +71,50 @@ class SalesAnalyst
 
   def invoice_status(status_symbol)
     total_invoices = invoices.count.to_f
-    requested_type_count = invoices.count { |invoice| invoice.status == status_symbol.to_s}
-    (requested_type_count / total_invoices) * 100
+    requested_type = invoices.find_all { |invoice| invoice.status == status_symbol}
+    requested_type_count = requested_type.count
+    ((requested_type_count / total_invoices) * 100).round(2)
+  end
+
+  def invoice_totals_by_day
+    totals = [0,0,0,0,0,0,0]
+    invoices.each do |invoice|
+      totals[invoice.created_at.wday] += 1
+    end
+    totals
+  end
+
+  def top_days_by_invoice_count
+    threshold = (invoice_totals_by_day.reduce(:+)/invoice_totals_by_day.length) +
+                  standard_deviation(invoice_totals_by_day)
+
+    result = []
+    result << "Sunday" if invoice_totals_by_day[0] > threshold
+    result << "Monday" if invoice_totals_by_day[1] > threshold
+    result << "Tuesday" if invoice_totals_by_day[2] > threshold
+    result << "Wednesday" if invoice_totals_by_day[3] > threshold
+    result << "Thursday" if invoice_totals_by_day[4] > threshold
+    result << "Friday" if invoice_totals_by_day[5] > threshold
+    result << "Saturday" if invoice_totals_by_day[6] > threshold
+
+    result
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    merchant_totals = merchants.map { |merchant| merchant.invoices.count.to_f }
+    standard_deviation(merchant_totals).round(2)
+  end
+
+  def top_merchants_by_invoice_count
+    threshold = average_invoices_per_merchant +
+                  (average_invoices_per_merchant_standard_deviation*2)
+    merchants.find_all { |merchant| merchant.invoices.count > threshold}
+  end
+
+  def bottom_merchants_by_invoice_count
+    threshold = average_invoices_per_merchant -
+                  (average_invoices_per_merchant_standard_deviation*2)
+    merchants.find_all { |merchant| merchant.invoices.count < threshold}
   end
 
   private

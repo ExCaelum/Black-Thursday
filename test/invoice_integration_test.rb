@@ -20,7 +20,7 @@ class InvoiceIntegrationTest < Minitest::Test
 
   def test_it_has_a_status
     invoice = @engine.invoices.all[3]
-    assert_equal 'returned', invoice.status
+    assert_equal :returned, invoice.status
   end
 
   def test_it_has_a_created_at

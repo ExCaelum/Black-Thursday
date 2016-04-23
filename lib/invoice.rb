@@ -20,7 +20,7 @@ class Invoice
   end
 
   def status
-    invoice_data[:status]
+    invoice_data[:status].intern
   end
 
   def created_at

@@ -50,7 +50,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_status
-    invoice_array = @engine.invoices.find_all_by_status('Returned')
+    invoice_array = @engine.invoices.find_all_by_status(:returned)
     invoices = invoice_array.map {|invoice| invoice.id}
     assert_equal [74,269,1695,1119], invoices
   end
