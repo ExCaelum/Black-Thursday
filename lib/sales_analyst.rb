@@ -66,14 +66,7 @@ class SalesAnalyst
 
   def invoice_status(status_symbol)
     total_invoices = invoices.count.to_f
-
-    if status_symbol == :shipped
-      requested_type_count = invoices.count { |invoice| invoice.status == "shipped"}
-    elsif status_symbol == :pending
-      requested_type_count = invoices.count { |invoice| invoice.status == "pending"}
-    elsif status_symbol == :returned
-      requested_type_count = invoices.count { |invoice| invoice.status == "returned"}
-    end
+    requested_type_count = invoices.count { |invoice| invoice.status == status_symbol.to_s}
     (requested_type_count / total_invoices) * 100
   end
 
