@@ -64,6 +64,12 @@ class SalesAnalyst
     (average_prices / merchants.size).round(2)
   end
 
+  def invoice_status(status_symbol)
+    total_invoices = invoices.count.to_f
+    requested_type_count = invoices.count { |invoice| invoice.status == status_symbol.to_s}
+    (requested_type_count / total_invoices) * 100
+  end
+
   private
 
   def item_repo
@@ -74,12 +80,20 @@ class SalesAnalyst
     engine.merchants
   end
 
+  def invoice_repo
+    engine.invoices
+  end
+
   def items
     item_repo.all
   end
 
   def merchants
     merchant_repo.all
+  end
+
+  def invoices
+    invoice_repo.all
   end
 
   def items_by_merchant_id(id)
