@@ -85,8 +85,14 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 0, result
   end
 
-  def test_it_can_calculate_which_merchants_are_more_more_than_two_sd_from_mean
+  def test_it_can_calculate_the_top_performing_merchants
     result = @analyst.top_merchants_by_invoice_count
+
+    assert_equal [], result
+  end
+
+  def test_it_can_calculate_the_lowest_performing_merchants
+    result = @analyst.bottom_merchants_by_invoice_count
 
     assert_equal [], result
   end

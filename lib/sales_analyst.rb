@@ -110,6 +110,12 @@ class SalesAnalyst
     merchants.find_all { |merchant| merchant.invoices.count > threshold}
   end
 
+  def bottom_merchants_by_invoice_count
+    threshold = average_invoices_per_merchant -
+                  (average_invoices_per_merchant_standard_deviation*2)
+    merchants.find_all { |merchant| merchant.invoices.count < threshold}
+  end
+
   private
 
   def item_repo
