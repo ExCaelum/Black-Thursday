@@ -19,6 +19,11 @@ class SalesAnalyst
     average_price.round(2)
   end
 
+  def average_invoices_per_merchant
+    merchant_totals = merchants.map { |merchant| merchant.invoices.count.to_f }
+    (merchant_totals.reduce(:+)/merchant_totals.length.to_f).round(2)
+  end
+
   def average_items_per_merchant_standard_deviation
     merchant_items = find_merchant_ids.map do |id|
       items_by_merchant_id(id).size.to_f
@@ -66,8 +71,9 @@ class SalesAnalyst
 
   def invoice_status(status_symbol)
     total_invoices = invoices.count.to_f
-    requested_type_count = invoices.count { |invoice| invoice.status == status_symbol.to_s}
-    (requested_type_count / total_invoices) * 100
+    requested_type = invoices.find_all { |invoice| invoice.status == status_symbol}
+    requested_type_count = requested_type.count
+    ((requested_type_count / total_invoices) * 100).round(2)
   end
 
   def invoice_totals_by_day
@@ -94,14 +100,9 @@ class SalesAnalyst
     result
   end
 
-  def average_invoices_per_merchant
-    merchant_totals = merchants.map { |merchant| merchant.invoices.count }
-    merchant_totals.reduce(:+)/merchant_totals.length
-  end
-
   def average_invoices_per_merchant_standard_deviation
-    merchant_totals = merchants.map { |merchant| merchant.invoices.count }
-    standard_deviation(merchant_totals)
+    merchant_totals = merchants.map { |merchant| merchant.invoices.count.to_f }
+    standard_deviation(merchant_totals).round(2)
   end
 
   def top_merchants_by_invoice_count
