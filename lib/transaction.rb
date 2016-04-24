@@ -20,7 +20,7 @@ class Transaction
   end
 
   def credit_card_expiration_date
-    transaction_data[:expiration_date].to_i
+    transaction_data[:credit_card_expiration_date]
   end
 
   def result
@@ -28,10 +28,18 @@ class Transaction
   end
 
   def created_at
-    merchant_data[:created_at]
+    if transaction_data[:created_at].class == String
+      Time.parse(transaction_data[:created_at])
+    elsif transaction_data[:created_at].class == Time
+      transaction_data[:created_at]
+    end
   end
 
   def updated_at
-    merchant_data[:updated_at]
+    if transaction_data[:updated_at].class == String
+      Time.parse(transaction_data[:updated_at])
+    elsif transaction_data[:updated_at].class == Time
+      transaction_data[:updated_at]
+    end
   end
 end

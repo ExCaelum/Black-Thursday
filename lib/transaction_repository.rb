@@ -50,7 +50,7 @@ class TransactionRepository
 
   def create_transactions(transactions_data)
     transactions_data.map do |transaction_data|
-      Transactions.new(transaction_data, self)
+      Transaction.new(transaction_data, self)
     end
   end
 end

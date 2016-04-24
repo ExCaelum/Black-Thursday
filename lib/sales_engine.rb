@@ -7,7 +7,8 @@ require_relative 'invoice_item_repository'
 require_relative 'transaction_repository'
 
 class SalesEngine
-  attr_reader :merchants, :items, :invoices, :invoice_items
+  attr_reader :merchants, :items, :invoices,
+              :invoice_items, :transactions
   include Loader
 
   def initialize(merchants_data, items_data, invoice_data,
