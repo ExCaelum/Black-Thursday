@@ -16,7 +16,8 @@ class Minitest::Test
               :merchants => "./data/small_merchants.csv",
               :invoices => "./data/small_invoices.csv",
               :invoice_items => "./data/small_invoice_items.csv",
-              :transactions => "./data/small_transactions.csv"
+              :transactions => "./data/small_transactions.csv",
+              :customers = > "./data/small_customers.csv"
                })
     @analyst = SalesAnalyst.new(@engine)
   end
