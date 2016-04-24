@@ -74,4 +74,17 @@ module Loader
     end
     all_transactions
   end
+
+  def self.load_customers(path)
+    all_customers = contents(path).map do |row|
+      data_hash = {}
+      data_hash[:id] = row[:id]
+      data_hash[:first_name] = row[:first_name]
+      data_hash[:last_name] = row[:last_name]
+      data_hash[:created_at] = row[:created_at]
+      data_hash[:updated_at] = row[:updated_at]
+      data_hash
+    end
+    all_customers
+  end
 end

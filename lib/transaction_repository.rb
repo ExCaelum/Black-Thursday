@@ -20,7 +20,7 @@ class TransactionRepository
 
   def find_by_id(id)
     transactions.find do |transaction|
-      transaction.id == id
+      transaction.id == id.to_i
     end
   end
 
