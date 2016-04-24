@@ -1,7 +1,7 @@
 module Loader
 
   def self.contents(path)
-    contents = CSV.open(path, headers: true, header_converters: :symbol)
+    CSV.open(path, headers: true, header_converters: :symbol)
   end
 
   def self.load_merchants(path)

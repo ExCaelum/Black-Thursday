@@ -10,10 +10,6 @@ class ItemRepository
     @sales_engine = sales_engine
   end
 
-  def from_csv(path)
-    items = create_items(Loader.load_items(path))
-  end
-
   def all
     items
   end

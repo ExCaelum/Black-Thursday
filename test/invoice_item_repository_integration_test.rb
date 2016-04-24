@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class InvoiceItemRepositoryTest < Minitest::Test
+class InvoiceItemRepositoryIntegrationTest < Minitest::Test
 
   def test_all
     invoice_item_array = @engine.invoice_items.all

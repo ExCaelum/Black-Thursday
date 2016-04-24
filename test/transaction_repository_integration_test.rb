@@ -1,10 +1,14 @@
 require_relative 'test_helper'
 
 class TransactionRepositoryIntegrationTest < Minitest::Test
-
   def test_it_has_all_transactions
     trans_array = @engine.transactions.all
     assert_equal 14, trans_array.count
+  end
+
+  def test_it_can_pull_a_transactions_invoice
+    transaction = @engine.transactions.find_by_id(3285)
+    assert_equal Invoice, transaction.invoice.class
   end
 
   def test_it_can_find_by_id

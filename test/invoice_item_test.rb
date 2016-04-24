@@ -34,7 +34,7 @@ class InvoiceItemTest < Minitest::Test
     assert_equal BigDecimal, @invoice_item.unit_price.class
   end
 
-  def test_unit_price_to_dollars
+  def test_it_can_convert_unit_price_to_dollars
     assert_equal 10.99, @invoice_item.unit_price_to_dollars
   end
 

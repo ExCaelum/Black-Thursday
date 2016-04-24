@@ -32,11 +32,19 @@ class Item
   end
 
   def created_at
-    Time.parse(item_data[:created_at])
+    if item_data[:created_at].class == String
+      Time.parse(item_data[:created_at])
+    elsif item_data[:created_at].class == Time
+      item_data[:created_at]
+    end
   end
 
   def updated_at
-    Time.parse(item_data[:updated_at])
+    if item_data[:updated_at].class == String
+      Time.parse(item_data[:updated_at])
+    elsif item_data[:updated_at].class == Time
+      item_data[:updated_at]
+    end
   end
 
   def merchant_id

@@ -10,10 +10,6 @@ class InvoiceRepository
     @sales_engine = sales_engine
   end
 
-  def from_csv(path)
-    invoices = create_invoices(Loader.load_merchants(path))
-  end
-
   def all
     invoices
   end
@@ -47,11 +43,13 @@ class InvoiceRepository
   end
 
   def get_items(invoice_id)
-    sales_engine.invoice_items.find_all_by_invoice_id(invoice_id).map do |invoice_item|
+    invoice_items = sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    items = invoice_items.map do |invoice_item|
       invoice_item.item_id
     end.map do |item_id|
       sales_engine.items.find_by_id(item_id)
     end
+    items
   end
 
   def get_transactions(invoice_id)
@@ -68,8 +66,8 @@ class InvoiceRepository
 
   private
 
-  def create_invoices(invoice_data)
-    invoice_data.map do |invoice|
+  def create_invoices(invoices_data)
+    invoices_data.map do |invoice|
       Invoice.new(invoice, self)
     end
   end

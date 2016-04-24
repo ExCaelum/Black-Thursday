@@ -10,8 +10,8 @@ class InvoiceItemRepository
     @sales_engine = sales_engine
   end
 
-  def from_csv
-    invoice_items = create_invoice_items(Loader.load_invoice_items(path))
+  def from_csv(path)
+    @invoice_items = create_invoice_items(Loader.load_invoice_items(path))
   end
 
   def all
@@ -42,8 +42,8 @@ class InvoiceItemRepository
 
   private
 
-  def create_invoice_items(invoice_item_data)
-    invoice_item_data.map do |invoice_item|
+  def create_invoice_items(invoice_items_data)
+    invoice_items_data.map do |invoice_item|
       InvoiceItem.new(invoice_item, self)
     end
   end

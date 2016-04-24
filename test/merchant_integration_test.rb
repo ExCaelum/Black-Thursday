@@ -38,4 +38,10 @@ class MerchantIntegrationTest < Minitest::Test
     assert_equal [1514,1691], invoices
   end
 
+  def test_it_can_get_its_customers
+    merchant = @engine.merchants.all.first
+    customers = merchant.customers
+
+    assert_equal Customer, customers[0].class
+  end
 end

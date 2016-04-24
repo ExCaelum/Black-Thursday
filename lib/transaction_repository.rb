@@ -11,7 +11,7 @@ class TransactionRepository
   end
 
   def from_csv(path)
-    transactions = create_transactions(Loader.load_transactions(path))
+    @transactions = create_transactions(Loader.load_transactions(path))
   end
 
   def all

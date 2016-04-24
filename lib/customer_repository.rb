@@ -11,7 +11,7 @@ class CustomerRepository
   end
 
   def from_csv(path)
-    customers = create_customers(Loader.load_customers(path))
+    @customers = create_customers(Loader.load_customers(path))
   end
 
   def all
@@ -37,13 +37,13 @@ class CustomerRepository
   end
 
   def inspect
-    "#<#{self.class} #{@merchants.size} rows>"
+    "#<#{self.class} #{@customers.size} rows>"
   end
 
   private
 
-  def create_customers(customer_data)
-    customer_data.map do |customer_data|
+  def create_customers(customers_data)
+    customers_data.map do |customer_data|
       Customer.new(customer_data, self)
     end
   end

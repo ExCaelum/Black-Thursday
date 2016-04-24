@@ -39,20 +39,6 @@ class Invoice
     end
   end
 
-  def is_paid_in_full?
-    transactions.any? do |transaction|
-      transaction.result == "success"
-    end
-  end
-
-  def total
-    if is_paid_in_full?
-      invoice_repo.sales_engine.invoice_items.find_all_by_invoice_id(id).map do |invoice_item|
-        invoice_item.quantity * invoice_item.unit_price
-      end.reduce(:+)
-    end
-  end
-
   def merchant
     invoice_repo.get_merchant(merchant_id)
   end
@@ -67,5 +53,19 @@ class Invoice
 
   def customer
     invoice_repo.get_customer(customer_id)
+  end
+
+  def is_paid_in_full?
+    transactions.any? do |transaction|
+      transaction.result == "success"
+    end
+  end
+
+  def total
+    if is_paid_in_full?
+      invoice_repo.sales_engine.invoice_items.find_all_by_invoice_id(id).map do |invoice_item|
+        invoice_item.quantity * invoice_item.unit_price
+      end.reduce(:+)
+    end
   end
 end

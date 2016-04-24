@@ -38,7 +38,6 @@ class SalesEngine
   end
 
   def self.load_data(path)
-    contents = CSV.open(path, headers: true, header_converters: :symbol)
     if path.include? "merchants"
       Loader.load_merchants(path)
     elsif path.include? "items"
