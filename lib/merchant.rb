@@ -32,4 +32,10 @@ class Merchant
     merchant_repo.get_invoices(id)
   end
 
+  def customers
+    invoices.map do |invoice|
+      invoice.customer
+    end.uniq
+  end
+
 end

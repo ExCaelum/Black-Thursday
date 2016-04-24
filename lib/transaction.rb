@@ -42,4 +42,8 @@ class Transaction
       transaction_data[:updated_at]
     end
   end
+
+  def invoice
+    transaction_repo.get_invoice(invoice_id)
+  end
 end
