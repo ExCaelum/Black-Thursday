@@ -1,8 +1,7 @@
 require_relative 'test_helper'
-require './lib/item'
 
-class ItemTest < Minitest::Test
-  
+class ItemIntegrationTest < Minitest::Test
+
   def test_id
     item = @engine.items.all.first
     assert_equal 263396209, item.id

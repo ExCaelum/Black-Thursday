@@ -1,5 +1,4 @@
 require_relative 'test_helper'
-require './lib/invoice'
 
 class InvoiceIntegrationTest < Minitest::Test
 

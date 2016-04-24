@@ -1,7 +1,6 @@
 require_relative 'test_helper'
-require './lib/merchant'
 
-class MerchantTest < Minitest::Test
+class MerchantIntegrationTest < Minitest::Test
 
   def test_id
     merchant = @engine.merchants.all.first

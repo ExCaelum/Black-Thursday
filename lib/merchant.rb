@@ -3,7 +3,7 @@ class Merchant
   attr_accessor :merchant_data
   attr_reader   :merchant_repo
 
-  def initialize(merchant_data, merchant_repo)
+  def initialize(merchant_data, merchant_repo = nil)
     @merchant_data = merchant_data
     @merchant_repo = merchant_repo
   end
@@ -26,12 +26,16 @@ class Merchant
 
   def items
     merchant_repo.get_items(id)
-    # sales_engine
-    # engine.items.find_all_by_merchant_id(id)
   end
 
   def invoices
     merchant_repo.get_invoices(id)
+  end
+
+  def customers
+    invoices.map do |invoice|
+      invoice.customer
+    end.uniq
   end
 
 end
