@@ -1,8 +1,7 @@
 require_relative 'test_helper'
-require './lib/invoice_repository'
 
 class InvoiceRepositoryTest < Minitest::Test
-  
+
   def test_it_has_all_invoices
     invoice_array = @engine.invoices.all
     invoices = invoice_array.map {|invoice| invoice.id}

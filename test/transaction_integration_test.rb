@@ -1,5 +1,4 @@
 require_relative 'test_helper'
-require './lib/transaction'
 
 class TransactionIntegrationTest < Minitest::Test
 
