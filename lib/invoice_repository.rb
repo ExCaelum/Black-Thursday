@@ -46,6 +46,22 @@ class InvoiceRepository
     sales_engine.merchants.find_by_id(merchant_id)
   end
 
+  def get_items(invoice_id)
+    sales_engine.invoice_items.find_all_by_invoice_id(invoice_id).map do |invoice_item|
+      invoice_item.item_id
+    end.map do |item_id|
+      sales_engine.items.find_by_id(item_id)
+    end
+  end
+
+  def get_transactions(invoice_id)
+    sales_engine.transactions.find_all_by_invoice_id(invoice_id)
+  end
+
+  def get_customer(customer_id)
+    sales_engine.customers.find_by_id(customer_id)
+  end
+
   def inspect
     "#<#{self.class} #{@invoices.size} rows>"
   end

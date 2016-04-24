@@ -39,7 +39,25 @@ class Invoice
     end
   end
 
+  def is_paid_in_full?
+    transactions.any? do |transaction|
+      transaction.result == "success"
+    end
+  end
+
   def merchant
     invoice_repo.get_merchant(merchant_id)
+  end
+
+  def items
+    invoice_repo.get_items(id)
+  end
+
+  def transactions
+    invoice_repo.get_transactions(id)
+  end
+
+  def customer
+    invoice_repo.get_customer(customer_id)
   end
 end
