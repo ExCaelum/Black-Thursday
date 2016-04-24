@@ -20,19 +20,19 @@ class InvoiceRepository
 
   def find_by_id(id)
     invoices.find do |invoice|
-      invoice.id == id
+      invoice.id == id.to_i
     end
   end
 
   def find_all_by_customer_id(id)
     invoices.find_all do |invoice|
-      invoice.customer_id == id
+      invoice.customer_id == id.to_i
     end
   end
 
   def find_all_by_merchant_id(id)
     invoices.find_all do |invoice|
-      invoice.merchant_id == id
+      invoice.merchant_id == id.to_i
     end
   end
 

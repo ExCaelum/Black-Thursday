@@ -2,7 +2,7 @@ class Invoice
   attr_accessor :invoice_data
   attr_reader   :invoice_repo
 
-  def initialize(invoice_data, invoice_repo)
+  def initialize(invoice_data, invoice_repo = nil)
     @invoice_data = invoice_data
     @invoice_repo = invoice_repo
   end

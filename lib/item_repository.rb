@@ -31,31 +31,27 @@ class ItemRepository
   end
 
   def find_all_with_description(description)
-    descriptions = items.select do |item|
+    items.find_all do |item|
       item.description.downcase.include? description.downcase
     end
-    descriptions
   end
 
   def find_all_by_price(price)
-    prices = items.select do |item|
-      item.unit_price_to_dollars == price
+    items.find_all do |item|
+      item.unit_price_to_dollars == price.to_f
     end
-    prices
   end
 
   def find_all_by_price_in_range(price)
-    prices = items.select do |item|
+    items.find_all do |item|
       price.include?(item.unit_price_to_dollars)
     end
-    prices
   end
 
   def find_all_by_merchant_id(merch_id)
-    merchant_id = items.select do |item|
-      item.merchant_id == merch_id
+    items.find_all do |item|
+      item.merchant_id == merch_id.to_i
     end
-    merchant_id
   end
 
   def get_merchant(merchant_id)
