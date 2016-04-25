@@ -66,7 +66,8 @@ module Loader
       data_hash[:id] = row[:id]
       data_hash[:invoice_id] = row[:invoice_id]
       data_hash[:credit_card_number] = row[:credit_card_number]
-      data_hash[:credit_card_expiration_date] = row[:credit_card_expiration_date]
+      data_hash[:credit_card_expiration_date] =
+      row[:credit_card_expiration_date]
       data_hash[:result] = row[:result]
       data_hash[:created_at] = row[:created_at]
       data_hash[:updated_at] = row[:updated_at]

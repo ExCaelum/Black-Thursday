@@ -71,7 +71,9 @@ class SalesAnalyst
 
   def invoice_status(status_symbol)
     total_invoices = invoices.count.to_f
-    requested_type = invoices.find_all { |invoice| invoice.status == status_symbol}
+    requested_type = invoices.find_all do |invoice|
+      invoice.status == status_symbol
+    end
     requested_type_count = requested_type.count
     ((requested_type_count / total_invoices) * 100).round(2)
   end
@@ -85,8 +87,9 @@ class SalesAnalyst
   end
 
   def top_days_by_invoice_count
-    threshold = (invoice_totals_by_day.reduce(:+)/invoice_totals_by_day.length) +
-                  standard_deviation(invoice_totals_by_day)
+    threshold = (invoice_totals_by_day.reduce(:+) /
+                 invoice_totals_by_day.length) +
+                 standard_deviation(invoice_totals_by_day)
 
     result = []
     result << "Sunday" if invoice_totals_by_day[0] > threshold
