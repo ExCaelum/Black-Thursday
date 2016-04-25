@@ -1,8 +1,6 @@
 require_relative 'test_helper'
-require './lib/item_repository'
 
 class ItemRepositoryTest < Minitest::Test
-
   def test_all
     items = @engine.items.all.count
     assert_equal 7, items

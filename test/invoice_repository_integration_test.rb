@@ -1,15 +1,6 @@
 require_relative 'test_helper'
-require './lib/invoice_repository'
 
 class InvoiceRepositoryTest < Minitest::Test
-
-  def test_that_it_exists
-    assert_equal InvoiceRepository, @engine.invoices.class
-  end
-
-  def test_it_has_sales_engine
-    assert_equal SalesEngine, @engine.invoices.sales_engine.class
-  end
 
   def test_it_has_all_invoices
     invoice_array = @engine.invoices.all
