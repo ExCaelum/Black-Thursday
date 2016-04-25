@@ -10,6 +10,10 @@ class MerchantRepository
     @sales_engine = sales_engine
   end
 
+  def from_csv(path)
+    @merchants = create_merchants(Loader.load_merchants(path))
+  end
+
   def all
     merchants
   end
