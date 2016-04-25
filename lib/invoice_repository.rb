@@ -10,6 +10,10 @@ class InvoiceRepository
     @sales_engine = sales_engine
   end
 
+  def from_csv(path)
+    @invoices = create_invoices(Loader.load_invoices(path))
+  end
+
   def all
     invoices
   end
