@@ -54,6 +54,7 @@ class InvoiceRepository
     end.map do |item_id|
       sales_engine.items.find_by_id(item_id)
     end
+    return nil if items[0].nil?
     items
   end
 
