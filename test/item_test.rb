@@ -7,7 +7,7 @@ class ItemTest < Minitest::Test
       :name        => "Pencil",
       :description => "You can use it to write things",
       :merchant_id => 7,
-      :unit_price  => BigDecimal.new(10.99,4),
+      :unit_price  => BigDecimal.new(1099,4),
       :created_at  => Time.now,
       :updated_at  => Time.now
       })
@@ -42,6 +42,6 @@ class ItemTest < Minitest::Test
   end
 
   def test_it_can_convert_unit_price_to_dollars
-    assert_equal 0.1099, @item.unit_price_to_dollars
+    assert_equal 10.99, @item.unit_price_to_dollars
   end
 end
