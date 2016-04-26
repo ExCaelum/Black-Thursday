@@ -11,7 +11,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_average_items_per_merchant
-    assert_equal 1.8, @analyst.average_items_per_merchant
+    assert_equal 2.4, @analyst.average_items_per_merchant
   end
 
   def test_average_items_per_merchant_standard_deviation
@@ -21,7 +21,7 @@ class SalesAnalystTest < Minitest::Test
   def test_merchants_with_high_item_count
     high_item_merchants = @analyst.merchants_with_high_item_count
     high_item_merchants = high_item_merchants.map {|merchant| merchant.name}
-    assert_equal ["Shopin1901"], high_item_merchants
+    assert_equal [], high_item_merchants
   end
 
   def test_average_item_price_for_merchant
@@ -35,12 +35,12 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_average_price_of_items
-    assert_equal '30.22', @analyst.average_price_of_items.to_digits
+    assert_equal '40.16', @analyst.average_price_of_items.to_digits
     assert_equal BigDecimal, @analyst.average_price_of_items.class
   end
 
   def test_average_price_of_items_standard_deviation
-    assert_equal 45.4, @analyst.average_price_of_items_standard_deviation
+    assert_equal 50.9, @analyst.average_price_of_items_standard_deviation
   end
 
   def test_golden_items
@@ -119,5 +119,11 @@ class SalesAnalystTest < Minitest::Test
   def test_top_3_revenue_earners
     result = @analyst.top_revenue_earners(3)
     assert_equal ["GoldenRayPress", "Candisart", "Shopin1901"], result
+  end
+
+  def test_most_sold_item_for_merchant
+    result = @analyst.most_sold_item_for_merchant(12334113)
+    items = result.map {|item| item.name}
+    assert_equal ["Legend of Zelda Shield Perler Bead Magnet/ Ornament"], items
   end
 end

@@ -136,9 +136,8 @@ class SalesAnalyst
 
   def revenue_by_merchant(merchant_id)
     #find the merchant
-    merchant = merchant_repo.find_by_id(merchant_id)
     #find the invoices
-    invoices = merchant.invoices
+    invoices = find_merchant_invoices(merchant_id)
     #find the total for invoices
     costs = invoices.map {|invoice| invoice.total}
     #add the total of all invoices
@@ -147,10 +146,31 @@ class SalesAnalyst
 
   def top_revenue_earners(merchant_amount = 20)
     merchant_ids = merchants.map {|merchant| merchant.id}
-    sorted = merchant_ids.sort_by {|merchant_id| revenue_by_merchant(merchant_id)}.reverse
+    sorted = merchant_ids.sort_by do |merchant_id|
+      revenue_by_merchant(merchant_id)
+    end.reverse
     merchants = sorted.map {|id| merchant_repo.find_by_id(id).name}
     merchants.take(merchant_amount)
   end
+
+  def most_sold_item_for_merchant(merchant_id)
+    invoices = find_merchant_invoices(merchant_id)
+    invoice_ids = invoices.map {|invoice| invoice.id}
+    invoice_items = invoice_ids.map do |id|
+      engine.invoice_items.find_all_by_invoice_id(id)
+    end.flatten
+    sorted = invoice_items.sort_by do |invoice_item|
+      invoice_item.quantity
+    end.reverse
+    max_quantity = sorted[0].quantity
+    high_quantity_items = sorted.find_all do |invoice_item|
+      invoice_item.quantity >= max_quantity
+    end
+    item_ids = high_quantity_items.map {|invoice_item| invoice_item.item_id}
+    top_selling_items = item_ids.map {|id| item_repo.find_by_id(id)}
+  end
+
+  def
 
   private
 
@@ -184,6 +204,10 @@ class SalesAnalyst
 
   def find_merchant_ids
     merchants.map {|merch| merch.id}
+  end
+
+  def find_merchant_invoices(merchant_id)
+    merchant_repo.find_by_id(merchant_id).invoices
   end
 
   def standard_deviation(array)

@@ -3,7 +3,7 @@ require_relative 'test_helper'
 class ItemRepositoryTest < Minitest::Test
   def test_all
     items = @engine.items.all.count
-    assert_equal 9, items
+    assert_equal 12, items
   end
 
   def test_find_by_id
@@ -64,7 +64,7 @@ class ItemRepositoryTest < Minitest::Test
   def test_view_all_prices
     item_array = @engine.items.find_all_by_price_in_range(0..1030)
     result = item_array.map {|item| item.unit_price_to_dollars}
-    assert_equal [29.99, 9.99, 9.99, 15.0, 150.0, 20.0, 14.0, 8.0, 14.99], result
+    assert_equal [29.99, 9.99, 9.99, 15.0, 150.0, 20.0, 14.0, 8.0, 14.99, 5.0, 69.99, 135.0], result
   end
 
   def test_all_by_price_in_range
@@ -76,7 +76,7 @@ class ItemRepositoryTest < Minitest::Test
   def test_all_by_price_in_range_false
     item_array = @engine.items.find_all_by_price_in_range(0..8)
     result = item_array.map {|item| item.id}
-    assert_equal [263413709], result
+    assert_equal [263413709, 263531554], result
   end
 
   def test_find_all_by_merchant_id_single
