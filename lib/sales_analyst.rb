@@ -128,6 +128,7 @@ class SalesAnalyst
     #remove duplicates
     merchants = merchant_ids.map {|id| merchant_repo.find_by_id(id)}
     #get those merchant objects
+    merchants
   end
 
   def merchants_with_only_one_item
@@ -164,12 +165,24 @@ class SalesAnalyst
     end
     item_ids = high_quantity_items.map {|invoice_item| invoice_item.item_id}
     top_selling_items = item_ids.map {|id| item_repo.find_by_id(id)}
+    top_selling_items
   end
 
   def best_item_for_merchant(merchant_id)
     invoice_items = find_merchant_invoice_items(merchant_id)
     sorted = invoice_items.sort_by do |invoice_item|
     end
+  end
+
+  def total_revenue_by_date(date)
+    invoices.reduce(0) do |sum, invoice|
+      if invoice.created_at.strftime("%F") == date.strftime("%F")
+        sum + invoice.total
+      else
+        sum
+      end
+    end
+
   end
 
   private
@@ -196,6 +209,10 @@ class SalesAnalyst
 
   def invoices
     invoice_repo.all
+  end
+
+  def invoice_items
+    engine.invoice_items.all
   end
 
   def items_by_merchant_id(id)

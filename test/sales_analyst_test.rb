@@ -126,4 +126,11 @@ class SalesAnalystTest < Minitest::Test
     items = result.map {|item| item.name}
     assert_equal ["Legend of Zelda Shield Perler Bead Magnet/ Ornament"], items
   end
+
+  def test_it_can_calculate_total_revenue_by_date
+    date = Date.parse("2005-01-03")
+    result = @analyst.total_revenue_by_date(date)
+
+    assert_equal 4380.14, result.to_f
+  end
 end
