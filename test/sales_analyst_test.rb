@@ -126,4 +126,10 @@ class SalesAnalystTest < Minitest::Test
     items = result.map {|item| item.name}
     assert_equal ["Legend of Zelda Shield Perler Bead Magnet/ Ornament"], items
   end
+
+  def test_best_sold_item_for_merchant
+    result = @analyst.best_item_for_merchant(12334113)
+    items = result.map {|item| item.name}
+    assert_equal ["Custom Puppy Water Colors"], items
+  end
 end
