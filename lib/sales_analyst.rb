@@ -120,6 +120,16 @@ class SalesAnalyst
     merchants.find_all { |merchant| merchant.invoices.count < threshold}
   end
 
+  def merchants_with_pending_invoices
+    #find all invoices with a pending status
+    pending_invoices = invoices.find_all {|invoice| invoice.status == :pending}
+    #find the merchants that belong to those invoices
+    merchant_ids = pending_invoices.map {|invoice| invoice.merchant_id}.uniq
+    #remove duplicates
+    merchants = merchant_ids.map {|id| merchant_repo.find_by_id(id)}
+    #get those merchant objects
+  end
+
   private
 
   def item_repo

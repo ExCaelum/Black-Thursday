@@ -11,7 +11,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_average_items_per_merchant
-    assert_equal 1.4, @analyst.average_items_per_merchant
+    assert_equal 1.8, @analyst.average_items_per_merchant
   end
 
   def test_average_items_per_merchant_standard_deviation
@@ -35,12 +35,12 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_average_price_of_items
-    assert_equal '35.57', @analyst.average_price_of_items.to_digits
+    assert_equal '30.22', @analyst.average_price_of_items.to_digits
     assert_equal BigDecimal, @analyst.average_price_of_items.class
   end
 
   def test_average_price_of_items_standard_deviation
-    assert_equal 50.93, @analyst.average_price_of_items_standard_deviation
+    assert_equal 45.4, @analyst.average_price_of_items_standard_deviation
   end
 
   def test_golden_items
@@ -94,5 +94,13 @@ class SalesAnalystTest < Minitest::Test
     result = @analyst.bottom_merchants_by_invoice_count
 
     assert_equal [], result
+  end
+
+  def test_we_can_find_merchants_with_pending_invoices
+    merchant_array = @analyst.merchants_with_pending_invoices
+    result = merchant_array.map {|merchant| merchant.id}
+
+    assert_equal [12334105], result
+    assert_equal [Merchant], merchant_array.map {|merchant| merchant.class}
   end
 end
