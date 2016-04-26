@@ -5,7 +5,7 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_it_has_all_invoices
     invoice_array = @engine.invoices.all
     invoices = invoice_array.map {|invoice| invoice.id}
-    assert_equal [74,139,269,1695,548,660,949,1119,1514,1691], invoices
+    assert_equal [74,139,269,1695,548,660,1119,1514,1691], invoices
   end
 
   def test_find_by_id
@@ -32,7 +32,7 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_find_all_by_merchant_id
     invoice_array = @engine.invoices.find_all_by_merchant_id(12334115)
     invoices = invoice_array.map {|invoice| invoice.id}
-    assert_equal [949,1119], invoices
+    assert_equal [1119], invoices
   end
 
   def test_find_all_by_merchant_id_empty

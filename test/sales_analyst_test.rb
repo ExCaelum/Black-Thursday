@@ -51,19 +51,19 @@ class SalesAnalystTest < Minitest::Test
   def test_it_can_calculate_the_percentage_of_invoices_shipped
     result = @analyst.invoice_status(:shipped)
 
-    assert_equal 50.0, result
+    assert_equal 44.44, result
   end
 
   def test_it_can_calculate_the_percentage_of_invoices_pending
     result = @analyst.invoice_status(:pending)
 
-    assert_equal 10.0, result
+    assert_equal 11.11, result
   end
 
   def test_it_can_calculate_the_percentage_of_invoices_returned
     result = @analyst.invoice_status(:returned)
 
-    assert_equal 40.0, result
+    assert_equal 44.44, result
   end
 
   def test_it_can_calculate_the_days_invoices_are_created_more
@@ -75,13 +75,13 @@ class SalesAnalystTest < Minitest::Test
   def test_it_can_calculate_average_invoices_per_merchant
     result = @analyst.average_invoices_per_merchant
 
-    assert_equal 2, result
+    assert_equal 1.8, result
   end
 
   def test_it_can_calculate_invoices_per_merchant_standard_deviation
     result = @analyst.average_invoices_per_merchant_standard_deviation
 
-    assert_equal 0, result
+    assert_equal 0.45, result
   end
 
   def test_it_can_calculate_the_top_performing_merchants
@@ -114,5 +114,10 @@ class SalesAnalystTest < Minitest::Test
     result = @analyst.revenue_by_merchant(12334113)
     assert_equal "7366.49", result.to_digits
     assert_equal BigDecimal, result.class
+  end
+
+  def test_top_3_revenue_earners
+    result = @analyst.top_revenue_earners(3)
+    assert_equal ["GoldenRayPress", "Candisart", "Shopin1901"], result
   end
 end

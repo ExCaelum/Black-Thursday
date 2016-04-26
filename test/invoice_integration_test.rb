@@ -42,31 +42,31 @@ class InvoiceIntegrationTest < Minitest::Test
   end
 
   def test_it_can_find_its_items_that_dont_exist
-    invoice = @engine.invoices.all[6]
+    invoice = @engine.invoices.all[7]
 
     assert_equal nil, invoice.items
   end
 
   def test_it_can_find_items
-    invoice = @engine.invoices.all[7]
+    invoice = @engine.invoices.all[6]
     items = invoice.items.map {|item| item.id}
     assert_equal [263413709, 263562568], items
   end
 
   def test_it_can_find_its_transactions
-    invoice = @engine.invoices.all[7]
+    invoice = @engine.invoices.all[6]
 
     assert_equal Transaction, invoice.transactions[0].class
   end
 
   def test_it_can_find_its_customer
-    invoice = @engine.invoices.all[8]
+    invoice = @engine.invoices.all[7]
 
     assert_equal Customer, invoice.customer.class
   end
 
   def test_it_can_get_the_total_paid
-    invoice = @engine.invoices.all[9]
+    invoice = @engine.invoices.all[8]
 
     assert_equal 9022.25, invoice.total.to_f
   end

@@ -145,6 +145,13 @@ class SalesAnalyst
     costs.reduce(:+)
   end
 
+  def top_revenue_earners(merchant_amount = 20)
+    merchant_ids = merchants.map {|merchant| merchant.id}
+    sorted = merchant_ids.sort_by {|merchant_id| revenue_by_merchant(merchant_id)}.reverse
+    merchants = sorted.map {|id| merchant_repo.find_by_id(id).name}
+    merchants.take(merchant_amount)
+  end
+
   private
 
   def item_repo
