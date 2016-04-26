@@ -139,7 +139,7 @@ class SalesAnalyst
     #find the invoices
     invoices = find_merchant_invoices(merchant_id)
     #find the total for invoices
-    costs = invoices.map {|invoice| invoice.total}
+    costs = invoices.map {|invoice| invoice.total}.compact
     #add the total of all invoices
     costs.reduce(:+)
   end
@@ -154,11 +154,7 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(merchant_id)
-    invoices = find_merchant_invoices(merchant_id)
-    invoice_ids = invoices.map {|invoice| invoice.id}
-    invoice_items = invoice_ids.map do |id|
-      engine.invoice_items.find_all_by_invoice_id(id)
-    end.flatten
+    invoice_items = find_merchant_invoice_items(merchant_id)
     sorted = invoice_items.sort_by do |invoice_item|
       invoice_item.quantity
     end.reverse
@@ -170,7 +166,11 @@ class SalesAnalyst
     top_selling_items = item_ids.map {|id| item_repo.find_by_id(id)}
   end
 
-  def
+  def best_item_for_merchant(merchant_id)
+    invoice_items = find_merchant_invoice_items(merchant_id)
+    sorted = invoice_items.sort_by do |invoice_item|
+    end
+  end
 
   private
 
@@ -210,6 +210,13 @@ class SalesAnalyst
     merchant_repo.find_by_id(merchant_id).invoices
   end
 
+  def find_merchant_invoice_items(merchant_id)
+    invoices = find_merchant_invoices(merchant_id)
+    invoice_ids = invoices.map {|invoice| invoice.id}
+    invoice_items = invoice_ids.map do |id|
+      engine.invoice_items.find_all_by_invoice_id(id)
+    end.flatten
+  end
   def standard_deviation(array)
     mean = array.reduce(:+) / array.count
     second_array = array.map {|number| (number - mean) ** 2}
