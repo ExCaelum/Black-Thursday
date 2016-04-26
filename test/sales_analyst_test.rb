@@ -132,6 +132,7 @@ class SalesAnalystTest < Minitest::Test
     result = @analyst.total_revenue_by_date(date)
 
     assert_equal 4380.14, result.to_f
+  end
 
   def test_best_sold_item_for_merchant
     result = @analyst.best_item_for_merchant(12334113)
