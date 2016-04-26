@@ -109,4 +109,10 @@ class SalesAnalystTest < Minitest::Test
     merchants = merchant_array.map {|merchant| merchant.name}
     assert_equal ["Candisart", "MiniatureBikez", "LolaMarleys", "GoldenRayPress"], merchants
   end
+
+  def test_revenue_by_merchant
+    result = @analyst.revenue_by_merchant(12334113)
+    assert_equal "7366.49", result.to_digits
+    assert_equal BigDecimal, result.class
+  end
 end

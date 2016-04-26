@@ -134,6 +134,17 @@ class SalesAnalyst
     merchants.find_all {|merchant| merchant.items.count == 1}
   end
 
+  def revenue_by_merchant(merchant_id)
+    #find the merchant
+    merchant = merchant_repo.find_by_id(merchant_id)
+    #find the invoices
+    invoices = merchant.invoices
+    #find the total for invoices
+    costs = invoices.map {|invoice| invoice.total}
+    #add the total of all invoices
+    costs.reduce(:+)
+  end
+
   private
 
   def item_repo
