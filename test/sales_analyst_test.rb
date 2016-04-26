@@ -103,4 +103,10 @@ class SalesAnalystTest < Minitest::Test
     assert_equal [12334105], result
     assert_equal [Merchant], merchant_array.map {|merchant| merchant.class}
   end
+
+  def test_merchants_with_only_one_item
+    merchant_array = @analyst.merchants_with_only_one_item
+    merchants = merchant_array.map {|merchant| merchant.name}
+    assert_equal ["Candisart", "MiniatureBikez", "LolaMarleys", "GoldenRayPress"], merchants
+  end
 end

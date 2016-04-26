@@ -130,6 +130,10 @@ class SalesAnalyst
     #get those merchant objects
   end
 
+  def merchants_with_only_one_item
+    merchants.find_all {|merchant| merchant.items.count == 1}
+  end
+
   private
 
   def item_repo
