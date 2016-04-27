@@ -96,12 +96,10 @@ class SalesAnalystTest < Minitest::Test
     assert_equal [], result
   end
 
-  def test_we_can_find_merchants_with_pending_invoices
+  def test_it_can_find_all_merchants_with_pending_invoices
     merchant_array = @analyst.merchants_with_pending_invoices
-    result = merchant_array.map {|merchant| merchant.id}
 
-    assert_equal [12334105], result
-    assert_equal [Merchant], merchant_array.map {|merchant| merchant.class}
+    assert_equal 1, merchant_array.length
   end
 
   def test_merchants_with_only_one_item
@@ -122,9 +120,10 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_most_sold_item_for_merchant
-    result = @analyst.most_sold_item_for_merchant(12334113)
-    items = result.map {|item| item.name}
-    assert_equal ["Legend of Zelda Shield Perler Bead Magnet/ Ornament"], items
+    items = @analyst.most_sold_item_for_merchant(12334113)
+
+    assert_equal Array, items.class
+    assert_equal 1, items.length
   end
 
   def test_it_can_calculate_total_revenue_by_date

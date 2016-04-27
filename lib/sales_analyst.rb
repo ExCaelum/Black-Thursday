@@ -121,14 +121,11 @@ class SalesAnalyst
   end
 
   def merchants_with_pending_invoices
-    #find all invoices with a pending status
-    pending_invoices = invoices.find_all {|invoice| invoice.status == :pending}
-    #find the merchants that belong to those invoices
-    merchant_ids = pending_invoices.map {|invoice| invoice.merchant_id}.uniq
-    #remove duplicates
-    merchants = merchant_ids.map {|id| merchant_repo.find_by_id(id)}
-    #get those merchant objects
-    merchants
+    pending_invoices = invoice_repo.find_all_by_status(:pending)
+    pending_merchants = pending_invoices.map do |invoice|
+      invoice.merchant
+    end.uniq
+    pending_merchants
   end
 
   def merchants_with_only_one_item
@@ -155,17 +152,19 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(merchant_id)
-    invoice_items = find_merchant_invoice_items(merchant_id)
-    sorted = invoice_items.sort_by do |invoice_item|
-      invoice_item.quantity
-    end.reverse
-    max_quantity = sorted[0].quantity
-    high_quantity_items = sorted.find_all do |invoice_item|
-      invoice_item.quantity >= max_quantity
+    initial_invoice_items = find_merchant_invoice_items(merchant_id)
+    invoice_items = initial_invoice_items.find_all do |invoice_item|
+      invoice_repo.find_by_id(invoice_item.invoice_id).is_paid_in_full?
     end
-    item_ids = high_quantity_items.map {|invoice_item| invoice_item.item_id}
-    top_selling_items = item_ids.map {|id| item_repo.find_by_id(id)}
-    top_selling_items
+    hash = {}
+    keys = invoice_items.map {|invoice_item| invoice_item.quantity}.uniq
+    keys.each {|key| hash[key] = []}
+
+    invoice_items.each do |invoice_item|
+      hash[invoice_item.quantity] << item_repo.find_by_id(invoice_item.item_id)
+    end
+
+    hash[hash.keys.max]
   end
 
   def best_item_for_merchant(merchant_id)
