@@ -140,4 +140,10 @@ class SalesAnalystTest < Minitest::Test
     result = @analyst.best_item_for_merchant(12334113)
     assert_equal "Custom Puppy Water Colors", result.name
   end
+
+  def test_it_can_rank_merchants_by_revenue
+    result = @analyst.merchants_ranked_by_revenue
+
+    assert_equal [], result
+  end
 end

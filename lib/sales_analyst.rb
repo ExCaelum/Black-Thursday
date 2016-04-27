@@ -147,6 +147,10 @@ class SalesAnalyst
     merchants.take(merchant_amount)
   end
 
+  def merchants_ranked_by_revenue
+    top_revenue_earners(merchants.length)
+  end
+
   def most_sold_item_for_merchant(merchant_id)
     initial_invoice_items = find_merchant_invoice_items(merchant_id)
     invoice_items = initial_invoice_items.find_all do |invoice_item|
