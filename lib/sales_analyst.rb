@@ -1,5 +1,6 @@
 require 'bigdecimal/util'
 require_relative 'sales_engine'
+require 'pry'
 
 class SalesAnalyst
   attr_reader :engine
@@ -121,11 +122,12 @@ class SalesAnalyst
   end
 
   def merchants_with_pending_invoices
-    pending_invoices = invoice_repo.find_all_by_status(:pending)
-    pending_merchants = pending_invoices.map do |invoice|
-      invoice.merchant
-    end.uniq
-    pending_merchants
+    bad_invoices = invoices.find_all do |invoice|
+      invoice.is_paid_in_full? == false
+    end
+    merchant_ids = bad_invoices.map {|invoice| invoice.merchant_id}.uniq
+    merchants = merchant_ids.map {|id| merchant_repo.find_by_id(id)}
+    merchants
   end
 
   def merchants_with_only_one_item
@@ -140,7 +142,8 @@ class SalesAnalyst
 
   def top_revenue_earners(merchant_amount = 20)
     merchant_ids = merchants.map {|merchant| merchant.id}
-    sorted = merchant_ids.sort_by do |merchant_id|
+    merchant_revenues = merchant_ids.find_all {|merchant_id| revenue_by_merchant(merchant_id)}
+    sorted = merchant_revenues.sort_by do |merchant_id|
       revenue_by_merchant(merchant_id)
     end.reverse
     merchants = sorted.map {|id| merchant_repo.find_by_id(id)}
@@ -252,6 +255,7 @@ class SalesAnalyst
       engine.invoice_items.find_all_by_invoice_id(id)
     end.flatten
   end
+
   def standard_deviation(array)
     mean = array.reduce(:+) / array.count
     second_array = array.map {|number| (number - mean) ** 2}

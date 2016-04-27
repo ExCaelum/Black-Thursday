@@ -138,6 +138,10 @@ class SalesAnalystTest < Minitest::Test
 
   def test_best_item_for_merchant
     result = @analyst.best_item_for_merchant(12334113)
+<<<<<<< HEAD
+    # items = result.map {|item| item.name}
+    assert_equal "Custom Puppy Water Colors", result.name
+=======
     assert_equal "Custom Puppy Water Colors", result.name
   end
 
@@ -151,5 +155,6 @@ class SalesAnalystTest < Minitest::Test
     result = @analyst.merchants_with_only_one_item_registered_in_month("March")
 
     assert_equal 1, result.length
+>>>>>>> dd2d6e375e3172094f950ca8ea181d5a6f390164
   end
 end
