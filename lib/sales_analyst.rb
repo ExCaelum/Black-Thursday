@@ -141,7 +141,9 @@ class SalesAnalyst
 
   def top_revenue_earners(merchant_amount = 20)
     merchant_ids = merchants.map {|merchant| merchant.id}
-    merchant_revenues = merchant_ids.find_all {|merchant_id| revenue_by_merchant(merchant_id)}
+    merchant_revenues = merchant_ids.find_all do |merchant_id|
+      revenue_by_merchant(merchant_id)
+    end
     sorted = merchant_revenues.sort_by do |merchant_id|
       revenue_by_merchant(merchant_id)
     end.reverse
@@ -215,10 +217,6 @@ class SalesAnalyst
     engine.invoices
   end
 
-  def invoice_items_repo
-    engine.invoice_items
-  end
-
   def items
     item_repo.all
   end
@@ -229,10 +227,6 @@ class SalesAnalyst
 
   def invoices
     invoice_repo.all
-  end
-
-  def invoice_items
-    engine.invoice_items.all
   end
 
   def items_by_merchant_id(id)
