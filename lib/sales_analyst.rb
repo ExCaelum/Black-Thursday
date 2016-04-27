@@ -120,6 +120,87 @@ class SalesAnalyst
     merchants.find_all { |merchant| merchant.invoices.count < threshold}
   end
 
+  def merchants_with_pending_invoices
+    bad_invoices = invoices.find_all do |invoice|
+      invoice.is_paid_in_full? == false
+    end
+    merchant_ids = bad_invoices.map {|invoice| invoice.merchant_id}.uniq
+    merchants = merchant_ids.map {|id| merchant_repo.find_by_id(id)}
+    merchants
+  end
+
+  def merchants_with_only_one_item
+    merchants.find_all {|merchant| merchant.items.count == 1}
+  end
+
+  def revenue_by_merchant(merchant_id)
+    invoices = find_merchant_invoices(merchant_id)
+    valid_invoices = invoices.select{|invoice| invoice.is_paid_in_full? }
+    valid_invoices.reduce(0) {|sum, invoice| sum + invoice.total}
+  end
+
+  def top_revenue_earners(merchant_amount = 20)
+    merchant_ids = merchants.map {|merchant| merchant.id}
+    merchant_revenues = merchant_ids.find_all {|merchant_id| revenue_by_merchant(merchant_id)}
+    sorted = merchant_revenues.sort_by do |merchant_id|
+      revenue_by_merchant(merchant_id)
+    end.reverse
+    merchants = sorted.map {|id| merchant_repo.find_by_id(id)}
+    merchants.take(merchant_amount)
+  end
+
+  def merchants_ranked_by_revenue
+    top_revenue_earners(merchants.length)
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    initial_invoice_items = find_merchant_invoice_items(merchant_id)
+    invoice_items = initial_invoice_items.find_all do |invoice_item|
+      invoice_repo.find_by_id(invoice_item.invoice_id).is_paid_in_full?
+    end
+    hash = {}
+    keys = invoice_items.map {|invoice_item| invoice_item.quantity}.uniq
+    keys.each {|key| hash[key] = []}
+
+    invoice_items.each do |invoice_item|
+      hash[invoice_item.quantity] << item_repo.find_by_id(invoice_item.item_id)
+    end
+
+    hash[hash.keys.max]
+  end
+
+  def best_item_for_merchant(merchant_id)
+    invoice_items = find_merchant_invoice_items(merchant_id)
+    valid_invoice_items = invoice_items.find_all do |invoice_item|
+      invoice_repo.find_by_id(invoice_item.invoice_id).is_paid_in_full?
+    end
+
+    sorted = valid_invoice_items.sort_by do |invoice_item|
+      (invoice_item.unit_price * invoice_item.quantity)
+    end
+
+    item_repo.find_by_id(sorted.last.item_id)
+  end
+
+  def total_revenue_by_date(date)
+    invoices.reduce(0) do |sum, invoice|
+      if invoice.created_at.strftime("%F") == date.strftime("%F")
+        sum + invoice.total
+      else
+        sum
+      end
+    end
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    merchants = merchants_with_only_one_item
+
+    merchants.find_all do |merchant|
+      merchant.created_at.strftime("%B") == month
+    end
+
+  end
+
   private
 
   def item_repo
@@ -134,6 +215,10 @@ class SalesAnalyst
     engine.invoices
   end
 
+  def invoice_items_repo
+    engine.invoice_items
+  end
+
   def items
     item_repo.all
   end
@@ -146,12 +231,28 @@ class SalesAnalyst
     invoice_repo.all
   end
 
+  def invoice_items
+    engine.invoice_items.all
+  end
+
   def items_by_merchant_id(id)
     item_repo.find_all_by_merchant_id(id)
   end
 
   def find_merchant_ids
     merchants.map {|merch| merch.id}
+  end
+
+  def find_merchant_invoices(merchant_id)
+    merchant_repo.find_by_id(merchant_id).invoices
+  end
+
+  def find_merchant_invoice_items(merchant_id)
+    invoices = find_merchant_invoices(merchant_id)
+    invoice_ids = invoices.map {|invoice| invoice.id}
+    invoice_items = invoice_ids.map do |id|
+      engine.invoice_items.find_all_by_invoice_id(id)
+    end.flatten
   end
 
   def standard_deviation(array)

@@ -14,12 +14,12 @@ class MerchantIntegrationTest < Minitest::Test
 
   def test_it_can_find_creation_date
     merchant = @engine.merchants.all.first
-    assert_equal '2010-12-10', merchant.created_at
+    assert_equal Time, merchant.created_at.class
   end
 
   def test_it_can_find_date_updated
     merchant = @engine.merchants.all.first
-    assert_equal "2011-12-04", merchant.updated_at
+    assert_equal Time, merchant.updated_at.class
   end
 
   def test_it_can_list_items_for_the_merchant
