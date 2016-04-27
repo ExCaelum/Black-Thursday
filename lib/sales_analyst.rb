@@ -165,15 +165,15 @@ class SalesAnalyst
 
   def best_item_for_merchant(merchant_id)
     invoice_items = find_merchant_invoice_items(merchant_id)
-    sorted = invoice_items.sort_by do |invoice_item|
-      invoice_item.unit_price
-    end.reverse
-    max_revenue = sorted[0].unit_price
-    high_revenue_items = sorted.find_all do |invoice_item|
-      invoice_item.unit_price >= max_revenue
+    valid_invoice_items = invoice_items.find_all do |invoice_item|
+      invoice_repo.find_by_id(invoice_item.invoice_id).is_paid_in_full?
     end
-    item_ids = high_revenue_items.map {|invoice_item| invoice_item.item_id}
-    best_item = item_ids.map {|id| item_repo.find_by_id(id)}
+
+    sorted = valid_invoice_items.sort_by do |invoice_item|
+      (invoice_item.unit_price * invoice_item.quantity)
+    end
+
+    item_repo.find_by_id(sorted.last.item_id)
   end
 
   def total_revenue_by_date(date)

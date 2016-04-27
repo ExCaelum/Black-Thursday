@@ -136,9 +136,8 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 4380.14, result.to_f
   end
 
-  def test_best_sold_item_for_merchant
+  def test_best_item_for_merchant
     result = @analyst.best_item_for_merchant(12334113)
-    items = result.map {|item| item.name}
-    assert_equal ["Custom Puppy Water Colors"], items
+    assert_equal "Custom Puppy Water Colors", result.name
   end
 end
