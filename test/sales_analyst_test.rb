@@ -99,7 +99,7 @@ class SalesAnalystTest < Minitest::Test
   def test_it_can_find_all_merchants_with_pending_invoices
     merchant_array = @analyst.merchants_with_pending_invoices
 
-    assert_equal 1, merchant_array.length
+    assert_equal 0, merchant_array.length
   end
 
   def test_merchants_with_only_one_item
@@ -138,10 +138,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_best_item_for_merchant
     result = @analyst.best_item_for_merchant(12334113)
-<<<<<<< HEAD
-    # items = result.map {|item| item.name}
-    assert_equal "Custom Puppy Water Colors", result.name
-=======
+
     assert_equal "Custom Puppy Water Colors", result.name
   end
 
@@ -155,6 +152,5 @@ class SalesAnalystTest < Minitest::Test
     result = @analyst.merchants_with_only_one_item_registered_in_month("March")
 
     assert_equal 1, result.length
->>>>>>> dd2d6e375e3172094f950ca8ea181d5a6f390164
   end
 end

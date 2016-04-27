@@ -1,6 +1,5 @@
 require 'bigdecimal/util'
 require_relative 'sales_engine'
-require 'pry'
 
 class SalesAnalyst
   attr_reader :engine
