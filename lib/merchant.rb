@@ -1,4 +1,3 @@
-
 class Merchant
   attr_accessor :merchant_data
   attr_reader   :merchant_repo
@@ -45,5 +44,4 @@ class Merchant
       invoice.customer
     end.uniq
   end
-
 end

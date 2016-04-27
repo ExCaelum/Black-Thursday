@@ -47,13 +47,9 @@ class InvoiceRepository
   end
 
   def get_items(invoice_id)
-    invoice_items_repo = sales_engine.invoice_items
-    invoice_items = invoice_items_repo.find_all_by_invoice_id(invoice_id)
-    items = invoice_items.map do |invoice_item|
-      invoice_item.item_id
-    end.map do |item_id|
-      sales_engine.items.find_by_id(item_id)
-    end
+    i_items = sales_engine.invoice_items.find_all_by_invoice_id(invoice_id)
+    item_ids = i_items.map { |invoice_item| invoice_item.item_id }
+    items = item_ids.map { |item_id| sales_engine.items.find_by_id(item_id) }
     return nil if items[0].nil?
     items
   end
