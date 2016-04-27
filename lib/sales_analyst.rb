@@ -133,13 +133,9 @@ class SalesAnalyst
   end
 
   def revenue_by_merchant(merchant_id)
-    #find the merchant
-    #find the invoices
     invoices = find_merchant_invoices(merchant_id)
-    #find the total for invoices
-    costs = invoices.map {|invoice| invoice.total}.compact
-    #add the total of all invoices
-    costs.reduce(:+)
+    valid_invoices = invoices.select{|invoice| invoice.is_paid_in_full? }
+    valid_invoices.reduce(0) {|sum, invoice| sum + invoice.total}
   end
 
   def top_revenue_earners(merchant_amount = 20)
@@ -147,7 +143,7 @@ class SalesAnalyst
     sorted = merchant_ids.sort_by do |merchant_id|
       revenue_by_merchant(merchant_id)
     end.reverse
-    merchants = sorted.map {|id| merchant_repo.find_by_id(id).name}
+    merchants = sorted.map {|id| merchant_repo.find_by_id(id)}
     merchants.take(merchant_amount)
   end
 

@@ -116,7 +116,10 @@ class SalesAnalystTest < Minitest::Test
 
   def test_top_3_revenue_earners
     result = @analyst.top_revenue_earners(3)
-    assert_equal ["GoldenRayPress", "Candisart", "Shopin1901"], result
+
+    assert_equal Merchant, result[0].class
+    assert_equal Merchant, result[1].class
+    assert_equal Merchant, result[2].class
   end
 
   def test_most_sold_item_for_merchant
