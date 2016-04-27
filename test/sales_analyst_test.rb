@@ -96,12 +96,10 @@ class SalesAnalystTest < Minitest::Test
     assert_equal [], result
   end
 
-  def test_we_can_find_merchants_with_pending_invoices
+  def test_it_can_find_all_merchants_with_pending_invoices
     merchant_array = @analyst.merchants_with_pending_invoices
-    result = merchant_array.map {|merchant| merchant.id}
 
-    assert_equal [12334105], result
-    assert_equal [Merchant], merchant_array.map {|merchant| merchant.class}
+    assert_equal 1, merchant_array.length
   end
 
   def test_merchants_with_only_one_item
@@ -118,18 +116,45 @@ class SalesAnalystTest < Minitest::Test
 
   def test_top_3_revenue_earners
     result = @analyst.top_revenue_earners(3)
-    assert_equal ["GoldenRayPress", "Candisart", "Shopin1901"], result
+
+    assert_equal Merchant, result[0].class
+    assert_equal Merchant, result[1].class
+    assert_equal Merchant, result[2].class
   end
 
   def test_most_sold_item_for_merchant
-    result = @analyst.most_sold_item_for_merchant(12334113)
-    items = result.map {|item| item.name}
-    assert_equal ["Legend of Zelda Shield Perler Bead Magnet/ Ornament"], items
+    items = @analyst.most_sold_item_for_merchant(12334113)
+
+    assert_equal Array, items.class
+    assert_equal 1, items.length
   end
 
-  def test_best_sold_item_for_merchant
+  def test_it_can_calculate_total_revenue_by_date
+    date = Date.parse("2005-01-03")
+    result = @analyst.total_revenue_by_date(date)
+
+    assert_equal 4380.14, result.to_f
+  end
+
+  def test_best_item_for_merchant
     result = @analyst.best_item_for_merchant(12334113)
+<<<<<<< HEAD
     # items = result.map {|item| item.name}
     assert_equal "Custom Puppy Water Colors", result.name
+=======
+    assert_equal "Custom Puppy Water Colors", result.name
+  end
+
+  def test_it_can_rank_merchants_by_revenue
+    result = @analyst.merchants_ranked_by_revenue
+
+    assert_equal 5, result.length
+  end
+
+  def test_it_can_find_merchants_who_sell_only_one_item_in_a_month
+    result = @analyst.merchants_with_only_one_item_registered_in_month("March")
+
+    assert_equal 1, result.length
+>>>>>>> dd2d6e375e3172094f950ca8ea181d5a6f390164
   end
 end

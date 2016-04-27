@@ -17,11 +17,19 @@ class Merchant
   end
 
   def created_at
-    merchant_data[:created_at]
+    if merchant_data[:created_at].class == String
+      Time.parse(merchant_data[:created_at])
+    elsif merchant_data[:created_at].class == Time
+      merchant_data[:created_at]
+    end
   end
 
   def updated_at
-    merchant_data[:updated_at]
+    if merchant_data[:updated_at].class == String
+      Time.parse(merchant_data[:updated_at])
+    elsif merchant_data[:updated_at].class == Time
+      merchant_data[:updated_at]
+    end
   end
 
   def items
