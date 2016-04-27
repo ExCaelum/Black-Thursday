@@ -1,7 +1,3 @@
-require 'bigdecimal'
-require 'time'
-require 'date'
-
 class Item
   attr_accessor :item_data
   attr_reader   :item_repo
@@ -54,5 +50,4 @@ class Item
   def merchant
     item_repo.get_merchant(merchant_id)
   end
-
 end

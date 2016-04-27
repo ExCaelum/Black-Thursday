@@ -1,5 +1,4 @@
 module Loader
-
   def self.contents(path)
     CSV.open(path, headers: true, header_converters: :symbol)
   end

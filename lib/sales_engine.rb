@@ -16,21 +16,21 @@ class SalesEngine
   def initialize(merchants_data, items_data, invoice_data,
                  invoice_item_data, transaction_data,
                  customer_data)
-    @merchants ||= MerchantRepository.new(merchants_data, self)
-    @items ||= ItemRepository.new(items_data, self)
-    @invoices ||= InvoiceRepository.new(invoice_data, self)
-    @invoice_items ||= InvoiceItemRepository.new(invoice_item_data, self)
-    @transactions ||= TransactionRepository.new(transaction_data, self)
-    @customers ||= CustomerRepository.new(customer_data, self)
+    @merchants        ||=   MerchantRepository.new(merchants_data, self)
+    @items            ||=   ItemRepository.new(items_data, self)
+    @invoices         ||=   InvoiceRepository.new(invoice_data, self)
+    @invoice_items    ||=   InvoiceItemRepository.new(invoice_item_data, self)
+    @transactions     ||=   TransactionRepository.new(transaction_data, self)
+    @customers        ||=   CustomerRepository.new(customer_data, self)
   end
 
   def self.from_csv(path)
-    merchants_data = load_data(path[:merchants])
-    items_data = load_data(path[:items])
-    invoice_data = load_data(path[:invoices])
-    invoice_item_data = load_data(path[:invoice_items])
-    transaction_data = load_data(path[:transactions])
-    customer_data = load_data(path[:customers])
+    merchants_data    =   load_data(path[:merchants])
+    items_data        =   load_data(path[:items])
+    invoice_data      =   load_data(path[:invoices])
+    invoice_item_data =   load_data(path[:invoice_items])
+    transaction_data  =   load_data(path[:transactions])
+    customer_data     =   load_data(path[:customers])
 
     SalesEngine.new(merchants_data, items_data, invoice_data,
                     invoice_item_data, transaction_data,
@@ -54,5 +54,4 @@ class SalesEngine
       Loader.load_customers(path)
     end
   end
-
 end
