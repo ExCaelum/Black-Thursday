@@ -24,7 +24,7 @@ class ItemIntegrationTest < Minitest::Test
 
   def test_unit_price_to_dollars
     item = @engine.items.all.last
-    assert_equal 14.00, item.unit_price_to_dollars
+    assert_equal 135.0, item.unit_price_to_dollars
   end
 
   def test_created_at
@@ -39,7 +39,7 @@ class ItemIntegrationTest < Minitest::Test
 
   def test_merchant_id
     item = @engine.items.all.last
-    assert_equal 12334135, item.merchant_id
+    assert_equal 12334538, item.merchant_id
   end
 
   def test_item_can_find_its_merchant
