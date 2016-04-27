@@ -144,6 +144,12 @@ class SalesAnalystTest < Minitest::Test
   def test_it_can_rank_merchants_by_revenue
     result = @analyst.merchants_ranked_by_revenue
 
-    assert_equal [], result
+    assert_equal 5, result.length
+  end
+
+  def test_it_can_find_merchants_who_sell_only_one_item_in_a_month
+    result = @analyst.merchants_with_only_one_item_registered_in_month("March")
+
+    assert_equal 1, result.length
   end
 end

@@ -188,6 +188,14 @@ class SalesAnalyst
         sum
       end
     end
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    merchants = merchants_with_only_one_item
+
+    merchants.find_all do |merchant|
+      merchant.created_at.strftime("%B") == month
+    end
 
   end
 
@@ -203,6 +211,10 @@ class SalesAnalyst
 
   def invoice_repo
     engine.invoices
+  end
+
+  def invoice_items_repo
+    engine.invoice_items
   end
 
   def items
