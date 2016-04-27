@@ -1,5 +1,6 @@
 require 'bigdecimal/util'
 require_relative 'sales_engine'
+require 'pry'
 
 class SalesAnalyst
   attr_reader :engine
@@ -121,13 +122,12 @@ class SalesAnalyst
   end
 
   def merchants_with_pending_invoices
-    #find all invoices with a pending status
-    pending_invoices = invoices.find_all {|invoice| invoice.status == :pending}
-    #find the merchants that belong to those invoices
-    merchant_ids = pending_invoices.map {|invoice| invoice.merchant_id}.uniq
-    #remove duplicates
+    bad_invoices = invoices.find_all do |invoice|
+      invoice.is_paid_in_full? == false
+    end
+    merchant_ids = bad_invoices.map {|invoice| invoice.merchant_id}.uniq
     merchants = merchant_ids.map {|id| merchant_repo.find_by_id(id)}
-    #get those merchant objects
+    merchants
   end
 
   def merchants_with_only_one_item
@@ -146,7 +146,8 @@ class SalesAnalyst
 
   def top_revenue_earners(merchant_amount = 20)
     merchant_ids = merchants.map {|merchant| merchant.id}
-    sorted = merchant_ids.sort_by do |merchant_id|
+    merchant_revenues = merchant_ids.find_all {|merchant_id| revenue_by_merchant(merchant_id)}
+    sorted = merchant_revenues.sort_by do |merchant_id|
       revenue_by_merchant(merchant_id)
     end.reverse
     merchants = sorted.map {|id| merchant_repo.find_by_id(id).name}
@@ -169,14 +170,15 @@ class SalesAnalyst
   def best_item_for_merchant(merchant_id)
     invoice_items = find_merchant_invoice_items(merchant_id)
     sorted = invoice_items.sort_by do |invoice_item|
-      invoice_item.unit_price
+      invoice_item.unit_price * invoice_item.quantity
     end.reverse
-    max_revenue = sorted[0].unit_price
+    max_revenue = sorted[0].unit_price * sorted[0].quantity
     high_revenue_items = sorted.find_all do |invoice_item|
-      invoice_item.unit_price >= max_revenue
+      invoice_item.unit_price * invoice_item.quantity >= max_revenue
     end
     item_ids = high_revenue_items.map {|invoice_item| invoice_item.item_id}
     best_item = item_ids.map {|id| item_repo.find_by_id(id)}
+    best_item.first
   end
 
   private
@@ -224,6 +226,7 @@ class SalesAnalyst
       engine.invoice_items.find_all_by_invoice_id(id)
     end.flatten
   end
+
   def standard_deviation(array)
     mean = array.reduce(:+) / array.count
     second_array = array.map {|number| (number - mean) ** 2}
