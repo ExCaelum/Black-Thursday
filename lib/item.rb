@@ -1,3 +1,7 @@
+require 'bigdecimal'
+require 'time'
+require 'date'
+
 class Item
   attr_accessor :item_data
   attr_reader   :item_repo
